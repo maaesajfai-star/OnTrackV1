@@ -17,8 +17,13 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userRepository.findOne({ where: { email } });
+  async validateUser(usernameOrEmail: string, password: string): Promise<any> {
+    // Try to find user by username first, then by email
+    let user = await this.userRepository.findOne({ where: { username: usernameOrEmail } });
+
+    if (!user) {
+      user = await this.userRepository.findOne({ where: { email: usernameOrEmail } });
+    }
 
     if (user && await user.validatePassword(password)) {
       const { password, ...result } = user;
@@ -28,13 +33,14 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const user = await this.validateUser(loginDto.email, loginDto.password);
+    const user = await this.validateUser(loginDto.username, loginDto.password);
 
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const payload = {
+      username: user.username,
       email: user.email,
       sub: user.id,
       role: user.role
@@ -56,6 +62,7 @@ export class AuthService {
       refreshToken,
       user: {
         id: user.id,
+        username: user.username,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -65,19 +72,29 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto) {
-    const existingUser = await this.userRepository.findOne({
+    // Check if username already exists
+    const existingUsername = await this.userRepository.findOne({
+      where: { username: registerDto.username },
+    });
+
+    if (existingUsername) {
+      throw new UnauthorizedException('Username already exists');
+    }
+
+    // Check if email already exists
+    const existingEmail = await this.userRepository.findOne({
       where: { email: registerDto.email },
     });
 
-    if (existingUser) {
-      throw new UnauthorizedException('User already exists');
+    if (existingEmail) {
+      throw new UnauthorizedException('Email already exists');
     }
 
     const user = this.userRepository.create(registerDto);
     await this.userRepository.save(user);
 
     return this.login({
-      email: registerDto.email,
+      username: registerDto.username,
       password: registerDto.password
     });
   }

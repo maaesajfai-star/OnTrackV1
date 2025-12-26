@@ -13,9 +13,13 @@ import { Exclude } from 'class-transformer';
 
 @Entity('users')
 @Index(['email'], { unique: true })
+@Index(['username'], { unique: true })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({ length: 100, unique: true })
+  username: string;
 
   @Column({ length: 255 })
   email: string;

@@ -11,29 +11,34 @@ async function seed() {
 
   const userRepository = dataSource.getRepository(User);
 
-  // Create default admin user
-  const adminExists = await userRepository.findOne({ where: { email: 'admin@uems.com' } });
+  // Create universal Admin account
+  const adminExists = await userRepository.findOne({ where: { username: 'Admin' } });
 
   if (!adminExists) {
     const admin = userRepository.create({
-      email: 'admin@uems.com',
-      password: await bcrypt.hash('Admin@123456', 12),
+      username: 'Admin',
+      email: 'admin@uems.local',
+      password: await bcrypt.hash('AdminAdmin@123', 12),
       firstName: 'System',
       lastName: 'Administrator',
       role: 'admin',
       isActive: true,
     });
     await userRepository.save(admin);
-    console.log('✓ Admin user created: admin@uems.com / Admin@123456');
+    console.log('✓ Universal Admin account created:');
+    console.log('  Username: Admin');
+    console.log('  Password: AdminAdmin@123');
+    console.log('  Email: admin@uems.local');
   } else {
     console.log('✓ Admin user already exists');
   }
 
   // Create sample HR Manager
-  const hrExists = await userRepository.findOne({ where: { email: 'hr@uems.com' } });
+  const hrExists = await userRepository.findOne({ where: { username: 'hrmanager' } });
 
   if (!hrExists) {
     const hrManager = userRepository.create({
+      username: 'hrmanager',
       email: 'hr@uems.com',
       password: await bcrypt.hash('HR@123456', 12),
       firstName: 'HR',
@@ -42,14 +47,15 @@ async function seed() {
       isActive: true,
     });
     await userRepository.save(hrManager);
-    console.log('✓ HR Manager created: hr@uems.com / HR@123456');
+    console.log('✓ HR Manager created: hrmanager / HR@123456');
   }
 
   // Create sample Sales User
-  const salesExists = await userRepository.findOne({ where: { email: 'sales@uems.com' } });
+  const salesExists = await userRepository.findOne({ where: { username: 'salesuser' } });
 
   if (!salesExists) {
     const salesUser = userRepository.create({
+      username: 'salesuser',
       email: 'sales@uems.com',
       password: await bcrypt.hash('Sales@123456', 12),
       firstName: 'Sales',
@@ -58,7 +64,7 @@ async function seed() {
       isActive: true,
     });
     await userRepository.save(salesUser);
-    console.log('✓ Sales User created: sales@uems.com / Sales@123456');
+    console.log('✓ Sales User created: salesuser / Sales@123456');
   }
 
   await dataSource.destroy();
