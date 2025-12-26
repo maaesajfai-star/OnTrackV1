@@ -9,18 +9,35 @@ import { UpdateOrganizationDto } from '../dto/update-organization.dto';
 export class OrganizationsService {
   constructor(@InjectRepository(Organization) private repo: Repository<Organization>) {}
 
-  create(dto: CreateOrganizationDto) { return this.repo.save(this.repo.create(dto)); }
-  findAll() { return this.repo.find({ relations: ['parentOrganization'], order: { createdAt: 'DESC' } }); }
-  async findOne(id: string) {
-    const item = await this.repo.findOne({ where: { id }, relations: ['parentOrganization', 'contacts'] });
-    if (!item) throw new NotFoundException(\`Organization #\${id} not found\`);
+  async create(dto: CreateOrganizationDto): Promise<Organization> {
+    const organization = this.repo.create(dto);
+    return this.repo.save(organization);
+  }
+
+  async findAll(): Promise<Organization[]> {
+    return this.repo.find({
+      relations: ['parentOrganization'],
+      order: { createdAt: 'DESC' }
+    });
+  }
+
+  async findOne(id: string): Promise<Organization> {
+    const item = await this.repo.findOne({
+      where: { id },
+      relations: ['parentOrganization', 'contacts']
+    });
+    if (!item) {
+      throw new NotFoundException(`Organization #${id} not found`);
+    }
     return item;
   }
-  async update(id: string, dto: UpdateOrganizationDto) {
+
+  async update(id: string, dto: UpdateOrganizationDto): Promise<Organization> {
     const item = await this.findOne(id);
     return this.repo.save({ ...item, ...dto });
   }
-  async remove(id: string) {
+
+  async remove(id: string): Promise<void> {
     const item = await this.findOne(id);
     await this.repo.remove(item);
   }
