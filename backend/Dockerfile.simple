@@ -1,0 +1,27 @@
+# Simplified Dockerfile for Backend - Fixes cache and startup issues
+
+FROM node:20-alpine
+
+# Install netcat for health checks and wait-for scripts
+RUN apk add --no-cache netcat-openbsd postgresql-client
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production=false
+
+# Copy source code
+COPY . .
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Expose port
+EXPOSE 3001
+
+# Set entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]

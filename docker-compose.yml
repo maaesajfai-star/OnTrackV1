@@ -148,12 +148,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
-      target: development
-      cache_from:
-        - uems-backend:latest
-      args:
-        NODE_ENV: development
+      dockerfile: Dockerfile.simple
     image: uems-backend:latest
     container_name: uems-backend
     restart: unless-stopped
@@ -219,12 +214,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
-      target: development
-      cache_from:
-        - uems-frontend:latest
-      args:
-        NODE_ENV: development
+      dockerfile: Dockerfile.simple
     image: uems-frontend:latest
     container_name: uems-frontend
     restart: unless-stopped
