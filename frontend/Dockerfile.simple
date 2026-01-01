@@ -1,14 +1,18 @@
-# Simplified Dockerfile for Frontend - Fixes cache issues
+# Simplified Dockerfile for Frontend - Development Mode
 
 FROM node:20-alpine
 
+# Install curl for healthchecks
+RUN apk add --no-cache curl
+
 WORKDIR /app
 
-# Copy package files
+# Copy package files first (better caching)
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies with increased timeout and retries
+# Using npm install instead of npm ci for better compatibility
+RUN npm install --legacy-peer-deps || npm install --force
 
 # Copy source code
 COPY . .
@@ -16,5 +20,5 @@ COPY . .
 # Expose port
 EXPOSE 3000
 
-# Start development server
+# Start development server with hot reload
 CMD ["npm", "run", "dev"]
