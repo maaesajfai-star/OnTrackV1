@@ -151,6 +151,8 @@ services:
       dockerfile: Dockerfile.simple
     container_name: ontrack-backend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       # Database configuration
@@ -216,6 +218,8 @@ services:
       dockerfile: Dockerfile.simple
     container_name: ontrack-frontend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       # API configuration
