@@ -149,7 +149,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.simple
-    image: ontrack-backend:latest
     container_name: ontrack-backend
     restart: unless-stopped
     environment:
@@ -215,7 +214,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.simple
-    image: ontrack-frontend:latest
     container_name: ontrack-frontend
     restart: unless-stopped
     environment:
