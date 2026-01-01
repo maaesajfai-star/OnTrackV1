@@ -3,10 +3,18 @@ set -e
 
 echo "🚀 Starting UEMS Backend..."
 
+# Display environment information
+echo "📋 Environment: NODE_ENV=${NODE_ENV:-not set}"
+echo "📋 Working directory: $(pwd)"
+
 # Clean any previous build artifacts to prevent syntax errors
 echo "🧹 Cleaning build artifacts..."
-rm -rf /app/dist /app/build
+rm -rf /app/dist /app/build /app/.nest
 echo "✓ Build artifacts cleaned"
+
+# Ensure NODE_ENV is set for TypeORM
+export NODE_ENV="${NODE_ENV:-development}"
+echo "✓ NODE_ENV set to: $NODE_ENV"
 
 # Wait for PostgreSQL to be ready
 echo "⏳ Waiting for PostgreSQL..."
