@@ -7,6 +7,7 @@ import { User } from '../users/entities/user.entity';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -52,8 +53,11 @@ export class AuthService {
       expiresIn: this.configService.get('JWT_REFRESH_EXPIRATION', '7d'),
     });
 
+    // Hash the refresh token before storing in database for security
+    const hashedRefreshToken = crypto.createHash('sha256').update(refreshToken).digest('hex');
+
     await this.userRepository.update(user.id, {
-      refreshToken,
+      refreshToken: hashedRefreshToken,
       lastLoginAt: new Date()
     });
 
@@ -105,8 +109,11 @@ export class AuthService {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
 
+      // Hash the incoming refresh token to compare with stored hash
+      const hashedRefreshToken = crypto.createHash('sha256').update(refreshToken).digest('hex');
+
       const user = await this.userRepository.findOne({
-        where: { id: payload.sub, refreshToken },
+        where: { id: payload.sub, refreshToken: hashedRefreshToken },
       });
 
       if (!user) {
