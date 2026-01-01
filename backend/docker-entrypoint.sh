@@ -3,6 +3,11 @@ set -e
 
 echo "🚀 Starting UEMS Backend..."
 
+# Clean any previous build artifacts to prevent syntax errors
+echo "🧹 Cleaning build artifacts..."
+rm -rf /app/dist /app/build
+echo "✓ Build artifacts cleaned"
+
 # Wait for PostgreSQL to be ready
 echo "⏳ Waiting for PostgreSQL..."
 MAX_RETRIES=30
