@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import * as compression from 'compression';
+import compression from 'compression';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -56,8 +56,8 @@ async function bootstrap() {
 
   // Swagger Documentation
   const config = new DocumentBuilder()
-    .setTitle('UEMS API')
-    .setDescription('Unified Enterprise Management System API Documentation')
+    .setTitle('OnTrack API')
+    .setDescription('OnTrack - Unified Enterprise Management System API Documentation')
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
     .addTag('users', 'User management')
@@ -89,7 +89,7 @@ async function bootstrap() {
 
   console.log(`
   ========================================
-  🚀 UEMS Backend API Server Started
+  🚀 OnTrack Backend API Server Started
   ========================================
   🌐 Application: http://localhost:${port}
   📚 API Docs: http://localhost:${port}/api/docs

@@ -17,7 +17,7 @@ async function seed() {
   if (!adminExists) {
     const admin = userRepository.create({
       username: 'Admin',
-      email: 'admin@uems.local',
+      email: 'admin@ontrack.local',
       password: await bcrypt.hash('AdminAdmin@123', 12),
       firstName: 'System',
       lastName: 'Administrator',
@@ -28,7 +28,7 @@ async function seed() {
     console.log('✓ Universal Admin account created:');
     console.log('  Username: Admin');
     console.log('  Password: AdminAdmin@123');
-    console.log('  Email: admin@uems.local');
+    console.log('  Email: admin@ontrack.local');
   } else {
     console.log('✓ Admin user already exists');
   }
@@ -39,7 +39,7 @@ async function seed() {
   if (!hrExists) {
     const hrManager = userRepository.create({
       username: 'hrmanager',
-      email: 'hr@uems.com',
+      email: 'hr@ontrack.com',
       password: await bcrypt.hash('HR@123456', 12),
       firstName: 'HR',
       lastName: 'Manager',
@@ -56,7 +56,7 @@ async function seed() {
   if (!salesExists) {
     const salesUser = userRepository.create({
       username: 'salesuser',
-      email: 'sales@uems.com',
+      email: 'sales@ontrack.com',
       password: await bcrypt.hash('Sales@123456', 12),
       firstName: 'Sales',
       lastName: 'User',

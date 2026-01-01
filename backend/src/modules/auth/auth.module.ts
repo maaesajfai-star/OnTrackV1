@@ -16,12 +16,25 @@ import { UsersModule } from '../users/users.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: {
-          expiresIn: configService.get('JWT_EXPIRATION', '15m'),
-        },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const jwtSecret = configService.get('JWT_SECRET');
+
+        // Production security: Ensure JWT_SECRET is set and strong
+        if (!jwtSecret) {
+          throw new Error('JWT_SECRET is not defined in environment variables');
+        }
+
+        if (process.env.NODE_ENV === 'production' && jwtSecret.length < 32) {
+          throw new Error('JWT_SECRET must be at least 32 characters in production');
+        }
+
+        return {
+          secret: jwtSecret,
+          signOptions: {
+            expiresIn: configService.get('JWT_EXPIRATION', '15m'),
+          },
+        };
+      },
       inject: [ConfigService],
     }),
     UsersModule,

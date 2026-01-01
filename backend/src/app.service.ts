@@ -12,7 +12,7 @@ export class AppService {
       uptime: process.uptime(),
       environment: this.configService.get('NODE_ENV'),
       version: '1.0.0',
-      service: 'UEMS Backend API',
+      service: 'OnTrack Backend API',
     };
   }
 }

@@ -46,7 +46,7 @@ async function initializeDatabase() {
         .into('users')
         .values({
           username: 'Admin',
-          email: 'admin@uems.local',
+          email: 'admin@ontrack.local',
           password: hashedPassword,
           firstName: 'System',
           lastName: 'Administrator',

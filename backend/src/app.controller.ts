@@ -17,7 +17,7 @@ export class AppController {
   @ApiOperation({ summary: 'Root endpoint' })
   getRoot() {
     return {
-      message: 'UEMS API v1.0.0',
+      message: 'OnTrack API v1.0.0',
       documentation: '/api/docs',
       health: '/api/v1/health',
     };

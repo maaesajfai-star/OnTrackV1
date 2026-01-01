@@ -1,4 +1,4 @@
-# UEMS - Unified Enterprise Management System
+# OnTrack - Unified Enterprise Management System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-green.svg)](https://nodejs.org/)
@@ -11,7 +11,7 @@
 
 ## Overview
 
-UEMS is a comprehensive, production-ready enterprise management system that unifies customer relationship management, human resource management, and document management capabilities into a single, cohesive platform. Built with modern technologies and enterprise best practices, UEMS provides a scalable, secure, and user-friendly solution for organizations of all sizes.
+OnTrack is a comprehensive, production-ready enterprise management system that unifies customer relationship management, human resource management, and document management capabilities into a single, cohesive platform. Built with modern technologies and enterprise best practices, OnTrack provides a scalable, secure, and user-friendly solution for organizations of all sizes.
 
 ## Key Features
 
@@ -67,7 +67,7 @@ UEMS is a comprehensive, production-ready enterprise management system that unif
 - **Logging**: Winston (backend), structured logging
 
 ### Database
-- **Primary DB**: PostgreSQL 16 (UEMS data)
+- **Primary DB**: PostgreSQL 16 (OnTrack data)
 - **Secondary DB**: PostgreSQL 16 (NextCloud data)
 - **ORM**: TypeORM with migrations
 - **Connection Pooling**: Optimized pool configuration
@@ -91,7 +91,7 @@ UEMS is a comprehensive, production-ready enterprise management system that unif
                                ▼                    ▼
                         ┌──────────┐        ┌──────────┐
                         │PostgreSQL│        │PostgreSQL│
-                        │UEMS DB   │        │NC DB     │
+                        │OnTrack DB│        │NC DB     │
                         │ Port 5432│        │ Port 5432│
                         └──────────┘        └──────────┘
 ```
@@ -136,11 +136,11 @@ docker-compose exec backend npm run seed
 
 ### Default Credentials
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@uems.com | Admin@123456 |
-| HR Manager | hr@uems.com | HR@123456 |
-| Sales User | sales@uems.com | Sales@123456 |
+| Role | Username | Email | Password |
+|------|----------|-------|----------|
+| Admin | Admin | admin@ontrack.local | AdminAdmin@123 |
+| HR Manager | hrmanager | hr@ontrack.com | HR@123456 |
+| Sales User | salesuser | sales@ontrack.com | Sales@123456 |
 
 ## Project Structure
 
@@ -301,7 +301,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Documentation**: See `/docs` folder
 - **Issues**: GitHub Issues
-- **Email**: support@uems.com (replace with actual support email)
+- **Email**: support@ontrack.com (replace with actual support email)
 
 ## Roadmap
 
